@@ -5,20 +5,29 @@
 # include "libft/includes/libft.h"
 # include <stdarg.h>
 # include <stdio.h>
+# include <stdbool.h>
 
 // # define OCTAL
 // # define HEX
+# define TRUE 1
+# define FALSE 0
+# define MAXBUF 64
 
 typedef struct	s_data
 {
+	bool	space;
+	bool	dash;
+	bool	plus;
+	bool	hash;
 	va_list args;
 	int		width;
 	int		zero;
-	int		prc;
-	int		point;
-	int		dash;
-	int		space;
+	int		asterik;
 	int		skip;
+	int		digit;
+	int		bytes;
+	char	sign;
+
 }				t_data;
 
 typedef struct	s_args

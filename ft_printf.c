@@ -4,23 +4,24 @@ void	ft_init_add(t_data *data)
 {
 	data->width = 0;
 	data->space = 0;
+	data->plus = FALSE;
+	data->dash = FALSE;
+	data->hash = FALSE;
+	data->space = FALSE;
 	// data->skip = 0;
 }
 
 int	ft_format(t_data *ap, const char *format, int i)
 {
 	// ap->skip = 1;
+	i += ft_flags(ap, &format[i])
+	i += ft_modifier(ap, &format[i])
 	if (format[i] == 'c')
 		ap->width += ft_printchr(va_arg(ap->args, int));
 	else if (format[i] == 's')
 		ap->width += ft_printstr(va_arg(ap->args, char *));
 	else if (format[i] == 'd' || format[i] == 'i')
 		ap->width += ft_printnum(va_arg(ap->args, int));
-	else if (format[i] >= '0' && format[i] <= '9')
-	{
-		ap->width += ft_printspace(ap, (char *)format, i);
-		ft_format(ap, format, i + ap->skip);
-	}
 	// else if (format == 'p')
 	// 	p_lenght += ft_printadr(va_arg(args, unsigned long long));
 	// else if (format == 'u')
