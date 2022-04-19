@@ -37,12 +37,10 @@ typedef struct	s_args
 	va_list args;
 }				t_args;
 
-
-int ft_putstr_int(char *str);
-int	ft_printstr(char *str);
+int	ft_printstr(t_data *ap, char *str);
 int	ft_printnum(int nbr);
 int	ft_format(t_data *data, const char *format, int i);
-int	ft_printchr(int c);
+int	ft_printchr(t_data *ap, int c);
 int	ft_printf(const char *format, ...);
 int	ft_printspace(t_data *data, char *nbr, int i);
 void	ft_init_add(t_data *data);

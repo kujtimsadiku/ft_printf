@@ -16,7 +16,7 @@
 	z = For integer types, causes printf to expect a size_t-sized integer argument.
 */
 
-int	ft_length(t_data *ap, const char *p)
+int	ft_length(t_data *ap, char *p)
 {
 	char	c;
 
@@ -66,20 +66,21 @@ int	ft_flags(t_data *ap, char *p)
 		we dont print anything. 
 		If its bigger we print ap->number - strlen(str)
 */
-int	ft_width(t_data ap, char *p)
+int	ft_width(t_data *ap, const char *p)
 {
-	char	c;
+	// char	c;
 	int		i;
 
-	c = *p;
+	// c = *p;
 	i = 0;
 	if (isdigit(*p))
 	{
 		ap->num = TRUE;
 		while (isdigit(*p))
 		{
-			ap->number = 10 * ap->number + (c - '0'); 
-			c = *++p;
+			ap->number = 10 * ap->number + (*p - '0'); 
+			// c = *++p;
+			*p++;
 			i++;
 		}
 	}
@@ -118,6 +119,9 @@ int	ft_precision(t_data *ap, char *p)
 	return (i);
 }
 
+/*
+	If the ap->zero is true then we will add 0 as much as the ap->number - len is;
+*/
 int	ft_printwidth(t_data *ap, int len)
 {
 	int	width;

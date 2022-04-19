@@ -4,7 +4,7 @@ void	ft_init_add(t_data *data)
 {
 	data->space = 0;
 	data->sign = 0;
-	data->number = 0
+	data->number = 0;
 	data->dash = FALSE;
 	data->hash = FALSE;
 	data->space = FALSE;
