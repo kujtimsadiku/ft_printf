@@ -2,35 +2,41 @@
 
 void	ft_init_add(t_data *data)
 {
-	data->width = 0;
 	data->space = 0;
-	data->plus = FALSE;
+	data->sign = 0;
+	data->number = 0
 	data->dash = FALSE;
 	data->hash = FALSE;
 	data->space = FALSE;
+	data->zero = FALSE;
+	data->num = FALSE;
+	// data->width = 0;
 	// data->skip = 0;
 }
 
-int	ft_format(t_data *ap, const char *format, int i)
+int	ft_specifier(t_data *ap, const char *format, int i)
 {
-	// ap->skip = 1;
-	i += ft_flags(ap, &format[i])
-	i += ft_modifier(ap, &format[i])
+	i += ft_flags(ap, &format[i]);
+	i += ft_width(ap, &format[i]);
+	i += ft_precision(ap, &format[i]);
+	i += ft_length(ap, &format[i]);
 	if (format[i] == 'c')
-		ap->width += ft_printchr(va_arg(ap->args, int));
+		ap->width += ft_printchr(ap, va_arg(ap->args, int));
 	else if (format[i] == 's')
-		ap->width += ft_printstr(va_arg(ap->args, char *));
+		ap->width += ft_printstr(ap, va_arg(ap->args, char *));
 	else if (format[i] == 'd' || format[i] == 'i')
-		ap->width += ft_printnum(va_arg(ap->args, int));
-	// else if (format == 'p')
-	// 	p_lenght += ft_printadr(va_arg(args, unsigned long long));
-	// else if (format == 'u')
-	// 	p_lenght += ft_printfuns(va_arg(args, unsigned int));
-	// else if (format == 'x' || format == 'X')
-	// 	p_lenght += ft_printhex(va_arg(args, unsigned int), format);
-	else if (format[i + ap->skip] == '%')
-		return (write(1, "%", 1));
-	return (ap->skip + i);
+		ap->width += ft_printint(ap, va_arg(ap->args, int));
+	else if (format[i] == 'p')
+		ap->width += ft_printadr(ap, va_arg(ap->args, unsigned long long));
+	else if (format[i] == 'u')
+		ap->width += ft_printfu(ap, va_arg(ap->args, unsigned int));
+	else if (format[i] == 'x' || format[i] == 'X')
+		ap->width += ft_printhex(ap, va_arg(ap->args, unsigned int));
+	else if (format[i] == 'o')
+		ap->width += ft_printoct(ap, va_arg(ap->args, unsigned int));
+	else if (format[i] == '%')
+		i += write(1, "%%", 1);
+	return (i);
 }
 
 int	ft_printf(const char *format, ...)
@@ -41,17 +47,17 @@ int	ft_printf(const char *format, ...)
 
 	i = 0;
 	ret = 0;
-	ft_init_add(&data);
+	data.width = 0;
 	va_start(data.args, format);
 	while (format[i])
 	{
 		if (format[i] == '%')
 		{
-			data.skip = 0;
-			i = ft_format(&data, format, i + 1);
+			ft_init_add(&data);
+			i = ft_specifier(&data, format, i + 1);
 		}
 		else
-			data.width += ft_printchr(format[i]);
+			data.width += write(1, &format[i], 1);
 		i++;
 	}
 	va_end(data.args);

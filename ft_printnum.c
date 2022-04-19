@@ -14,7 +14,6 @@ int	ft_printspace(t_data *data, char *nbr, int i)
 		length += write(1, " ", 1);
 		space--;
 	}
-
 	return (length);
 }
 

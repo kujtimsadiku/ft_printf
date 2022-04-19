@@ -17,16 +17,18 @@ typedef struct	s_data
 {
 	bool	space;
 	bool	dash;
-	bool	plus;
 	bool	hash;
+	bool	zero;
+	bool	num;
 	va_list args;
+	int		prec;
+	int		number;
+	int		length;
 	int		width;
-	int		zero;
 	int		asterik;
 	int		skip;
-	int		digit;
 	int		bytes;
-	char	sign;
+	int		sign;
 
 }				t_data;
 
@@ -44,6 +46,10 @@ int	ft_printchr(int c);
 int	ft_printf(const char *format, ...);
 int	ft_printspace(t_data *data, char *nbr, int i);
 void	ft_init_add(t_data *data);
+int	ft_flags(t_data *ap, char *p);
+int	ft_width(t_data *ap, char *p);
+int ft_precision(t_data *ap, char *p);
+int	ft_length(t_data *ap, char *p);
 
 
 
