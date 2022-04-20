@@ -2,7 +2,7 @@
 
 int	ft_printoctal(t_data *ap, unsigned int u)
 {
-	static char digit[];
+	static char digit[10];
 	char *prefix;
 	int base;
 

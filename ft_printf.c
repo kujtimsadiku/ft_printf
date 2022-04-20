@@ -19,17 +19,17 @@ int	ft_specifier(t_data *ap, const char *format, int i)
 	i += ft_flags(ap, &format[i]);
 	i += ft_width(ap, &format[i]);
 	i += ft_precision(ap, &format[i]);
-	i += ft_length(ap, &format[i]);
+	i += ft_modifier(ap, &format[i]);
 	if (format[i] == 'c')
 		ap->width += ft_printchr(ap, va_arg(ap->args, int));
 	else if (format[i] == 's')
 		ap->width += ft_printstr(ap, va_arg(ap->args, char *));
 	else if (format[i] == 'd' || format[i] == 'i')
-		ap->width += ft_printint(ap, va_arg(ap->args, int));
+		ap->width += ft_printint(ap, va_arg(ap->args, int)); // avaa printnumissa
 	else if (format[i] == 'p')
-		ap->width += ft_printadr(ap, va_arg(ap->args, unsigned long long));
+		ap->width += ft_printadr(ap, va_arg(ap->args, unsigned long long)); // avaa printnumissa
 	else if (format[i] == 'u')
-		ap->width += ft_printfu(ap, va_arg(ap->args, unsigned int));
+		ap->width += ft_printfu(ap, va_arg(ap->args, unsigned int)); // 
 	else if (format[i] == 'x' || format[i] == 'X')
 		ap->width += ft_printhex(ap, va_arg(ap->args, unsigned int));
 	else if (format[i] == 'o')

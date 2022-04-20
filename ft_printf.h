@@ -29,6 +29,7 @@ typedef struct	s_data
 	int		skip;
 	int		bytes;
 	int		sign;
+	int		base;
 
 }				t_data;
 
@@ -47,7 +48,7 @@ void	ft_init_add(t_data *data);
 int	ft_flags(t_data *ap, char *p);
 int	ft_width(t_data *ap, char *p);
 int ft_precision(t_data *ap, char *p);
-int	ft_length(t_data *ap, char *p);
+int	ft_modifier(t_data *ap, char *p);
 
 
 

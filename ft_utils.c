@@ -16,7 +16,7 @@
 	z = For integer types, causes printf to expect a size_t-sized integer argument.
 */
 
-int	ft_length(t_data *ap, char *p)
+int	ft_modifier(t_data *ap, char *p)
 {
 	char	c;
 

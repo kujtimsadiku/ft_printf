@@ -17,13 +17,28 @@
 // 	return (length);
 // }
 
-int	ft_printnum(int nbr)
-{
-	int		width;
-	char	*nbrstr;
+// int	ft_printnum(int nbr)
+// {
+// 	int		width;
+// 	char	*nbrstr;
 
-	nbrstr = ft_itoa(nbr);
-	width = ft_printstr(nbrstr, ft_strlen(nbrstr));
-	free(nbrstr);
-	return (width);
+// 	nbrstr = ft_itoa(nbr);
+// 	width = ft_printstr(nbrstr, ft_strlen(nbrstr));
+// 	free(nbrstr);
+// 	return (width);
+// }
+
+int	ft_print_signed(t_data *ap)
+{
+
+}
+
+int	ft_print_unsigned(t_data *ap)
+{
+
+}
+
+int	ft_printnum(t_data *ap)
+{
+	char buf[MAXBUF];
 }
