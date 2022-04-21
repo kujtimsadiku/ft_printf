@@ -20,6 +20,8 @@ typedef struct	s_data
 	bool	hash;
 	bool	zero;
 	bool	num;
+	bool	after;
+	bool	before;
 	va_list args;
 	int		prec;
 	int		number;
@@ -30,6 +32,7 @@ typedef struct	s_data
 	int		bytes;
 	int		sign;
 	int		base;
+	int		capitals;
 
 }				t_data;
 
@@ -49,6 +52,7 @@ int	ft_flags(t_data *ap, char *p);
 int	ft_width(t_data *ap, char *p);
 int ft_precision(t_data *ap, char *p);
 int	ft_modifier(t_data *ap, char *p);
+int	ft_printpad(t_data *ap, int len);
 
 
 

@@ -15,7 +15,7 @@ int	ft_printstr(t_data *ap, char *str)
 
 	width = 0;
 	if (ap->zero == TRUE || ap->num == TRUE)
-		width += ft_printwidth(ap, ft_strlen(str));
+		width += ft_printpad(ap, ft_strlen(str));
 	if (str == NULL || str == "" || *str == '\0')
 		return (write(1, "", 0));
 	else

@@ -10,7 +10,10 @@ void	ft_init_add(t_data *data)
 	data->space = FALSE;
 	data->zero = FALSE;
 	data->num = FALSE;
-	// data->width = 0;
+	data->base = 0;
+	data->after = FALSE;
+	data->before = FALSE;
+	data->width = 0;
 	// data->skip = 0;
 }
 
@@ -31,11 +34,11 @@ int	ft_specifier(t_data *ap, const char *format, int i)
 	else if (format[i] == 'u')
 		ap->width += ft_printfu(ap, va_arg(ap->args, unsigned int)); // 
 	else if (format[i] == 'x' || format[i] == 'X')
-		ap->width += ft_printhex(ap, va_arg(ap->args, unsigned int));
+		ap->width += ft_printhex(ap, &format[i], va_arg(ap->args, unsigned int));
 	else if (format[i] == 'o')
 		ap->width += ft_printoct(ap, va_arg(ap->args, unsigned int));
 	else if (format[i] == '%')
-		i += write(1, "%%", 1);
+		ap->width += write(1, "%%", 1);
 	return (i);
 }
 

@@ -49,7 +49,7 @@ int	ft_flags(t_data *ap, char *p)
 	iszero = c - '0';
 	if (c == '#')
 		ap->hash = TRUE;
-	else if (c == '-')
+	else if (c == '-') // if this is the spaces will come after the str
 		ap->dash = TRUE;
 	else if (c == '+')
 		ap->sign = '+';
@@ -122,7 +122,7 @@ int	ft_precision(t_data *ap, char *p)
 /*
 	If the ap->zero is true then we will add 0 as much as the ap->number - len is;
 */
-int	ft_printwidth(t_data *ap, int len)
+int	ft_printpad(t_data *ap, int len)
 {
 	int	width;
 
