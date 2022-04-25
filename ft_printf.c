@@ -2,19 +2,14 @@
 
 void	ft_init_add(t_data *data)
 {
-	data->space = 0;
 	data->sign = 0;
-	data->number = 0;
-	data->dash = FALSE;
-	data->hash = FALSE;
-	data->space = FALSE;
-	data->zero = FALSE;
-	data->num = FALSE;
+	data->num = 0;
 	data->base = 0;
-	data->after = FALSE;
-	data->before = FALSE;
 	data->width = 0;
-	// data->skip = 0;
+	data->len = 0;
+	data->stat.ladjust = FALSE; //'-'
+	data->stat.altfmt = FALSE; //'#'
+	data->stat.is_digit = FALSE; //isdigit
 }
 
 int	ft_specifier(t_data *ap, const char *format, int i)
@@ -28,15 +23,15 @@ int	ft_specifier(t_data *ap, const char *format, int i)
 	else if (format[i] == 's')
 		ap->width += ft_printstr(ap, va_arg(ap->args, char *));
 	else if (format[i] == 'd' || format[i] == 'i')
-		ap->width += ft_printint(ap, va_arg(ap->args, int)); // avaa printnumissa
+		ap->width += ft_printint(ap, va_arg(ap->args, int), 10); // avaa printnumissa
 	else if (format[i] == 'p')
-		ap->width += ft_printadr(ap, va_arg(ap->args, unsigned long long)); // avaa printnumissa
+		ap->width += ft_printadr(ap, va_arg(ap->args, unsigned long long), 16); // avaa printnumissa
 	else if (format[i] == 'u')
-		ap->width += ft_printfu(ap, va_arg(ap->args, unsigned int)); // 
+		ap->width += ft_savenum(ap, va_arg(ap->args, unsigned int), 10); // 
 	else if (format[i] == 'x' || format[i] == 'X')
-		ap->width += ft_printhex(ap, &format[i], va_arg(ap->args, unsigned int));
+		ap->width += ft_savenum(ap, &format[i], va_arg(ap->args, unsigned int), 16);
 	else if (format[i] == 'o')
-		ap->width += ft_printoct(ap, va_arg(ap->args, unsigned int));
+		ap->width += ft_savenum(ap, va_arg(ap->args, unsigned int), 8);
 	else if (format[i] == '%')
 		ap->width += write(1, "%%", 1);
 	return (i);
@@ -56,7 +51,7 @@ int	ft_printf(const char *format, ...)
 	{
 		if (format[i] == '%')
 		{
-			ft_init_add(&data);
+			ft_init_add(&data); //bzero(&data, sizeof(data))
 			i = ft_specifier(&data, format, i + 1);
 		}
 		else

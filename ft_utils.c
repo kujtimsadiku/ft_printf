@@ -1,5 +1,6 @@
 #include "ft_printf.h"
 
+
 /*
 	hh = For integer types, causes printf to expect an int-sized 
 	integer argument which was promoted from a char.
@@ -42,23 +43,28 @@ int	ft_modifier(t_data *ap, char *p)
 
 int	ft_flags(t_data *ap, char *p)
 {
-	char	c;
-	int		iszero;
+	int	i;
 
-	c = *p;
-	iszero = c - '0';
-	if (c == '#')
-		ap->hash = TRUE;
-	else if (c == '-') // if this is the spaces will come after the str
-		ap->dash = TRUE;
-	else if (c == '+')
-		ap->sign = '+';
-	else if (c == ' ')
-		if (ap->sign == 0)
-			ap->sign = ' ';
-	else if (iszero == 0)
-		ap->zero = TRUE;
-	return (1);
+	i = 0;
+	ap->c = *p;
+	ap->zero = ap->c - '0';
+	while (1)
+	{
+		if (ap->c == '#')
+			ap->stat.altfmt = TRUE;
+		else if (ap->c == '-') // if this is the spaces will come after the str
+			ap->stat.ladjust = TRUE;
+		else if (ap->c == '+')
+			ap->plus_sign = '+';
+		else if (ap->c == ' ')
+			if (ap->plus_sign == 0)
+				ap->plus_sign = ' ';
+		else
+			break ;
+		i++;
+		ap->c = *(++p);
+	}
+	return (i);
 }
 /*
 	---Minimum number of characters to be printed----
@@ -66,21 +72,28 @@ int	ft_flags(t_data *ap, char *p)
 		we dont print anything. 
 		If its bigger we print ap->number - strlen(str)
 */
-int	ft_width(t_data *ap, const char *p)
+int	ft_width(t_data *ap, char *p)
 {
-	// char	c;
 	int		i;
 
-	// c = *p;
+	ap->c = *p;
 	i = 0;
-	if (isdigit(*p))
+	if (ap->c = '0')
 	{
-		ap->num = TRUE;
-		while (isdigit(*p))
+		if (ap->stat.ladjust)
+			ap->padc = ' ';
+		else
+			ap->padc = '0';
+		p++;
+	}
+	if (ft_isdigit(*p))
+	{
+		ap->stat.is_digit = TRUE;
+		while (ft_isdigit(*p))
 		{
-			ap->number = 10 * ap->number + (*p - '0'); 
+			ap->num = 10 * ap->num + (*p - '0'); 
 			// c = *++p;
-			*p++;
+			ap->c = *p++;
 			i++;
 		}
 	}
@@ -109,9 +122,9 @@ int	ft_precision(t_data *ap, char *p)
 	i = 0;
 	if (c == '.')
 	{
-		while (isdigit(*p))
+		while (ft_isdigit(*p))
 		{
-			ap->number = 10 * ap->number + (c - '0');
+			ap->num = 10 * ap->num + (c - '0');
 			c = *++p;
 			i++;
 		}
@@ -122,26 +135,3 @@ int	ft_precision(t_data *ap, char *p)
 /*
 	If the ap->zero is true then we will add 0 as much as the ap->number - len is;
 */
-int	ft_printpad(t_data *ap, int len)
-{
-	int	width;
-
-	width = 0;
-	if (ap->zero)
-	{
-		while (ap->number - len)
-		{
-			width += write(1, "0", 1);
-			ap->number--;
-		}
-	}
-	else if (ap->num)
-	{
-		while (ap->number - len)
-		{
-			width += write(1, " ", 1);
-			ap->number--;
-		}
-	}
-	return (width);
-}

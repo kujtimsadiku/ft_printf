@@ -13,26 +13,34 @@
 # define FALSE 0
 # define MAXBUF 64
 
+typedef struct s_bool
+{
+	bool	ladjust;
+	bool	altfmt;
+	bool	is_digit;
+}				t_bool;
+
 typedef struct	s_data
 {
-	bool	space;
-	bool	dash;
-	bool	hash;
-	bool	zero;
-	bool	num;
-	bool	after;
-	bool	before;
+	t_bool	stat;
 	va_list args;
+	int		zero;
 	int		prec;
-	int		number;
+	int		padc; // its 0 or ' '
+	int		num;
 	int		length;
 	int		width;
-	int		asterik;
-	int		skip;
 	int		bytes;
 	int		sign;
 	int		base;
 	int		capitals;
+	int		len;
+	int		plus_sign;
+	int		sign_char;
+	char	c;
+	long	n;
+	unsigned long	u;
+	char	*prefix;
 
 }				t_data;
 
@@ -47,12 +55,12 @@ int	ft_format(t_data *data, const char *format, int i);
 int	ft_printchr(t_data *ap, int c);
 int	ft_printf(const char *format, ...);
 int	ft_printspace(t_data *data, char *nbr, int i);
-void	ft_init_add(t_data *data);
+void ft_init_add(t_data *data);
 int	ft_flags(t_data *ap, char *p);
 int	ft_width(t_data *ap, char *p);
 int ft_precision(t_data *ap, char *p);
 int	ft_modifier(t_data *ap, char *p);
-int	ft_printpad(t_data *ap, int len);
+int	ft_printpad(t_data *ap, char *p, int len);
 
 
 
