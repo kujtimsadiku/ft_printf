@@ -1,3 +1,3 @@
 # ft_printf
 
-####Making my own printf.
+## Making my own printf.
