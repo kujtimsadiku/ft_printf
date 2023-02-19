@@ -137,4 +137,13 @@ void ft_hexchecker(t_data *ap, const char *format, int i)
 		ap->capitals = 0;
 	else if (format[i] == 'X')
 		ap->capitals = 16;
+	else if (format[i] == 'p')
+		ap->flags.altfmt = true;
+	else if (format[i] == 'u')
+		ap->flags.plus_sign = 0;
+	else if (format[i] == 'o')
+		ap->flags.plus_sign = 0;
+	else
+		return ;
+	ap->flags.plus_sign = 0;
 }

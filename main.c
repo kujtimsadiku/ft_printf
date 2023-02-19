@@ -27,9 +27,9 @@ int main(void)
 
 	// ft_printf("%+ d\n", 128);
 
-	char *str = "Hello world";
-	ft_printf("%p\n", &str);
-	printf("%p", &str);
+	char str = 'c';
+	ft_printf("%o\n", 435);
+	printf("%o", 435);
 	// printf("%lx\n", 4294967294);
 	return (0);
 }
