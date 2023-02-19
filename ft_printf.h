@@ -53,8 +53,10 @@ typedef struct	s_args
 
 int	ft_printstr(t_data *data, char *str);
 int	ft_printstr2(t_data *data, char *str);
-int	ft_printint(t_data *data, long num);
-int	ft_printulong(t_data *data, uintptr_t u, int base);
+void	ft_typecast_u(t_data *data, unsigned long long *num);
+void	ft_typecast(t_data *data, long long *num);
+int	ft_print_int(t_data *data, long long num);
+int	ft_print_u(t_data *data, unsigned long long u, int base);
 int	ft_format(t_data *data, const char *format, int i);
 int	ft_printchr(t_data *data, int c);
 int ft_printpads(unsigned int n, char c);
@@ -65,7 +67,7 @@ int	ft_flags(t_data *data, char *p);
 int	ft_padwidth(t_data *ap, char *p);
 int ft_precision(t_data *data, char *p);
 int	ft_modifier(t_data *data, char *p);
-int ft_hexchecker(t_data *ap, const char *format, int i);
+void ft_hexchecker(t_data *ap, const char *format, int i);
 
 
 

@@ -1,6 +1,20 @@
 #include "ft_printf.h"
 
-int	ft_printulong(t_data *data, uintptr_t u, int base)
+void	ft_typecast_u(t_data *data, unsigned long long *num)
+{
+	if (data->bits == 8)
+		*num = (unsigned char)*num;
+	else if (data->bits == 64)
+		*num = (unsigned long long)*num;
+	else if (data->bits == 16)
+		*num = (unsigned short)*num;
+	else if (data->bits == 32)
+		*num = (unsigned long)*num;
+	else
+		*num = (unsigned int)*num;
+}
+
+int	ft_print_u(t_data *data, unsigned long long u, int base)
 {
 	static char	digits[MAXBUF];
 	char		*build;
@@ -11,6 +25,7 @@ int	ft_printulong(t_data *data, uintptr_t u, int base)
 	length = 0;
 	if (u == 0 && data->flags.altfmt)
 		return (write(1, "0", 1));
+	ft_typecast_u(data, &u);
 	while (u != 0)
 	{
 		*build-- = digits[u % base + data->capitals];
@@ -21,22 +36,26 @@ int	ft_printulong(t_data *data, uintptr_t u, int base)
 	return (length);
 }
 
-bool	ft_checkbits(t_data *data, long long num)
+void	ft_typecast(t_data *data, long long *num)
 {
 	if (data->bits == 8)
-		return ();
-	else if (data_bits)
-	else if (data_bits)
-	else if (data_bits)
+		*num = (char)*num;
+	else if (data->bits == 64)
+		*num = (long long)*num;
+	else if (data->bits == 16)
+		*num = (short)*num;
+	else if (data->bits == 32)
+		*num = (long)*num;
 	else
-		return (0);
+		*num = (int)*num;
 }
 
-int	ft_printint(t_data *data, long num)
+int	ft_print_int(t_data *data, long long num)
 {
 	char	*numstr;
 	int		length;
 
+	ft_typecast(data, &num);
 	numstr = ft_itoa(num);
 	if (num < 0)
 	{

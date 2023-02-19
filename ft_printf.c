@@ -2,12 +2,16 @@
 
 void	ft_init_add(t_data *data)
 {
+
 	data->sign = 0;
 	data->base = 0;
 	data->width = 0;
 	data->len = 0;
-	data->flags.num = 0;
+	data->base = 10;
+	data->capitals = 0;
+	data->bits = 0;
 	data->null_c = false;
+	data->flags.num = 0;
 	data->flags.ladjust = false; //'-'
 	data->flags.altfmt = false; //'#'
 	data->flags.is_digit = false; //isdigit
@@ -15,8 +19,6 @@ void	ft_init_add(t_data *data)
 	data->flags.zero = 0;
 	data->flags.plus_sign = 0;
 	data->flags.padc = ' ';
-	data->base = 10;
-	data->capitals = 0;
 }
 
 static int	ft_specifier2(t_data *ap, const char *format, int i)
@@ -37,16 +39,16 @@ int	ft_specifier(t_data *ap, const char *format, int i)
 	else if (format[i] == 's')
 		ap->width += ft_printstr(ap, va_arg(ap->args, char *));
 	else if (format[i] == 'd' || format[i] == 'i') // %i makes hex, oxtal to and integer value otherwise its same as decimal
-		ap->width += ft_printint(ap, va_arg(ap->args, int)); // avaa printnumissa
-	// else if (format[i] == 'p')
-	// 	ap->width += ft_printulong(ap, va_arg(ap->args, unsigned long long), 16); // avaa printnumissa
+		ap->width += ft_print_int(ap, va_arg(ap->args, int)); // avaa printnumissa
+	else if (format[i] == 'p')
+		ap->width += ft_print_u(ap, va_arg(ap->args, unsigned long long), 16); // avaa printnumissa
 	else if (format[i] == 'u')
-		ap->width += ft_printulong(ap, va_arg(ap->args, unsigned int), 10); // 
+		ap->width += ft_print_u(ap, va_arg(ap->args, unsigned int), 10); // 
 	else if (format[i] == 'x' || format[i] == 'X')
-		ap->width += ft_printulong(ap, va_arg(ap->args, unsigned int), 16);
+		ap->width += ft_print_u(ap, va_arg(ap->args, unsigned int), 16);
 	// else if (format[i] == 'o') // base 8
 		// ap->width += ft_printulong(ap, va_arg(ap->args, unsigned int), 8);
-	else if (format[i] == '%') // tihs is ok
+	else if (format[i] == '%')
 		ap->width += write(1, "%%", 1);
 	return (i);
 }

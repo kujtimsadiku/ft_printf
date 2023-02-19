@@ -26,7 +26,10 @@ int main(void)
 	// printf("%010s", "\0");
 
 	// ft_printf("%+ d\n", 128);
-	printf("%hd", );
+
+	char *str = "Hello world";
+	ft_printf("%p\n", &str);
+	printf("%p", &str);
 	// printf("%lx\n", 4294967294);
 	return (0);
 }
