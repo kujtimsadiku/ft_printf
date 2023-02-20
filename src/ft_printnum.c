@@ -1,4 +1,16 @@
-#include "ft_printf.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printnum.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ksadiku <kuite.s@hotmail.com>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/20 15:55:44 by ksadiku           #+#    #+#             */
+/*   Updated: 2023/02/20 16:04:33 by ksadiku          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../include/ft_printf.h"
 
 void	ft_typecast_u(t_data *data, unsigned long long *num)
 {
@@ -16,7 +28,7 @@ void	ft_typecast_u(t_data *data, unsigned long long *num)
 		*num = (unsigned int)*num;
 }
 
-int	ft_check_if_ptr(t_data *data, unsigned long long u)
+int	ft_itsptr(t_data *data, unsigned long long u)
 {
 	if (u == 0 && data->flags.altfmt && data->ptr_addr)
 		return (write(1, "0x0", 3));
@@ -34,7 +46,7 @@ int	ft_print_u(t_data *data, unsigned long long u, int base)
 	build = &digits[MAXBUF - 1];
 	length = 0;
 	if (u == 0 && data->flags.altfmt)
-		return (ft_check_if_ptr(data, u));
+		return (ft_itsptr(data, u));
 	ft_typecast_u(data, &u);
 	while (u != 0)
 	{
