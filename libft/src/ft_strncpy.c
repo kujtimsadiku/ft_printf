@@ -1,32 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memccpy.c                                       :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksadiku <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ksadiku <ksadiku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/02 16:27:04 by ksadiku           #+#    #+#             */
-/*   Updated: 2021/11/22 14:23:21 by ksadiku          ###   ########.fr       */
+/*   Created: 2021/11/04 18:33:22 by ksadiku           #+#    #+#             */
+/*   Updated: 2022/05/19 15:40:30 by ksadiku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memccpy(void *dst, const void *src, int c, size_t n)
+char	*ft_strncpy(char *dst, const char *src, size_t n)
 {
-	size_t				i;
-	unsigned char		*pdst;
-	const char			*psrc;
+	size_t	i;
 
 	i = 0;
-	pdst = dst;
-	psrc = src;
-	while (i < n)
+	if (!dst && !src)
+		return (NULL);
+	while (i < n && src[i])
 	{
-		pdst[i] = psrc[i];
-		if (pdst[i] == (unsigned char)c)
-			return (&dst[i + 1]);
+		dst[i] = src[i];
 		i++;
 	}
-	return (NULL);
+	if (ft_strlen(src) < n)
+		i = ft_strlen(src);
+	while (i < n)
+	{
+		dst[i] = '\0';
+		i++;
+	}
+	return (dst);
 }

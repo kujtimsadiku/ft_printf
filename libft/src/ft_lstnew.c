@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksadiku <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ksadiku <ksadiku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 16:27:53 by ksadiku           #+#    #+#             */
-/*   Updated: 2021/12/02 20:04:56 by ksadiku          ###   ########.fr       */
+/*   Updated: 2022/05/19 15:40:53 by ksadiku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_list	*ft_lstnew(void const *content, size_t content_size)
 	if (!fresh->content)
 	{
 		free(fresh);
-		return (fresh);
+		return (0);
 	}
 	ft_memcpy(fresh->content, content, content_size);
 	fresh->content_size = content_size;
