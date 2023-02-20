@@ -44,6 +44,7 @@ typedef struct	s_data
 	unsigned long	u;
 	char	*prefix;
 	bool	null_c;
+	bool	ptr_addr;
 }				t_data;
 
 typedef struct	s_args
@@ -57,6 +58,7 @@ void	ft_typecast_u(t_data *data, unsigned long long *num);
 void	ft_typecast(t_data *data, long long *num);
 int	ft_print_int(t_data *data, long long num);
 int	ft_print_u(t_data *data, unsigned long long u, int base);
+int	ft_check_if_ptr(t_data *data, unsigned long long u);
 int	ft_format(t_data *data, const char *format, int i);
 int	ft_printchr(t_data *data, int c);
 int ft_printpads(unsigned int n, char c);

@@ -27,9 +27,18 @@ int main(void)
 
 	// ft_printf("%+ d\n", 128);
 
-	char str = 'c';
-	ft_printf("%o\n", 435);
-	printf("%o", 435);
+	char *str = "hello";
+	// ft_printf("%p\n", str);
+	// ft_printf("%p\n", NULL);
+	// printf("%p", str);
+	ft_printf("printf: (str)address = %p\n", str);
+	ft_printf("printf: (&str)address = %p\n", &str);
+	ft_printf("printf: (*str)address = %p\n", *str);
+
+	printf("printf: (str)address = %p\n", str);
+	printf("printf: (&str)address = %p\n", &str);
+	printf("printf: (*str)address = %p", *str);
+
 	// printf("%lx\n", 4294967294);
 	return (0);
 }

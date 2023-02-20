@@ -46,8 +46,8 @@ int	ft_specifier(t_data *ap, const char *format, int i)
 		ap->width += ft_print_u(ap, va_arg(ap->args, unsigned int), 10); // 
 	else if (format[i] == 'x' || format[i] == 'X')
 		ap->width += ft_print_u(ap, va_arg(ap->args, unsigned int), 16);
-	// else if (format[i] == 'o') // base 8
-		// ap->width += ft_print_u(ap, va_arg(ap->args, unsigned int), 8);
+	else if (format[i] == 'o') // base 8
+		ap->width += ft_print_u(ap, va_arg(ap->args, unsigned int), 8);
 	else if (format[i] == '%')
 		ap->width += write(1, "%%", 1);
 	return (i);

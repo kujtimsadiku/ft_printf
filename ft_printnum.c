@@ -10,8 +10,18 @@ void	ft_typecast_u(t_data *data, unsigned long long *num)
 		*num = (unsigned short)*num;
 	else if (data->bits == 32)
 		*num = (unsigned long)*num;
+	else if (data->ptr_addr)
+		return ;
 	else
 		*num = (unsigned int)*num;
+}
+
+int	ft_check_if_ptr(t_data *data, unsigned long long u)
+{
+	if (u == 0 && data->flags.altfmt && data->ptr_addr)
+		return (write(1, "0x0", 3));
+	else
+		return (write(1, "0", 1));
 }
 
 int	ft_print_u(t_data *data, unsigned long long u, int base)
@@ -24,7 +34,7 @@ int	ft_print_u(t_data *data, unsigned long long u, int base)
 	build = &digits[MAXBUF - 1];
 	length = 0;
 	if (u == 0 && data->flags.altfmt)
-		return (write(1, "0", 1));
+		return (ft_check_if_ptr(data, u));
 	ft_typecast_u(data, &u);
 	while (u != 0)
 	{

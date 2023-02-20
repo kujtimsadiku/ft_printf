@@ -32,6 +32,8 @@ int ft_printstrhelper(t_data *data, char *str)
 	int		width;
 
 	width = 0;
+	if (str == NULL && data->flags.altfmt)
+		return (write(1, "0x", 2));
 	if (str == NULL)
 	{
 		data->null_c = true;
