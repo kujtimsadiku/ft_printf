@@ -6,25 +6,28 @@
 /*   By: ksadiku <kuite.s@hotmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 15:55:37 by ksadiku           #+#    #+#             */
-/*   Updated: 2023/02/21 16:02:34 by ksadiku          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:31:40 by ksadiku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_printf.h"
 
-void ft_prefix(t_data *data)
+void	ft_prefix(t_data *data)
 {
-	if (data->base == 8 && data->flags.altfmt || data->base == 8 && data->flags.altfmt)
+	if ((data->base == 8 && data->flags.altfmt) || \
+			(data->base == 8 && data->flags.altfmt))
 		data->prefix = "0";
-	else if (data->base == 16 && data->flags.altfmt && data->capitals == 0)
+	else if (data->base == 16 && data->flags.altfmt && \
+			data->capitals == 0)
 		data->prefix = "0x";
-	else if (data->base == 16 && data->flags.altfmt && data->capitals == 16)
+	else if (data->base == 16 && data->flags.altfmt && \
+			data->capitals == 16)
 		data->prefix = "0X";
 }
 
-int	ft_puts(t_data *data, char *str)
+int	ft_puts(char *str)
 {
-	int width;
+	int	width;
 	int	i;
 
 	width = 0;
@@ -57,10 +60,8 @@ int	ft_printstr_helper(t_data *data, char *str)
 int	ft_flag_print(t_data *data, char *str)
 {
 	int	width;
-	int	i;
 
 	width = 0;
-	i = -1;
 	if (data->flags.padc == ' ' && !data->flags.ladjust)
 		width += ft_printpads(data);
 	if (data->c)
@@ -70,10 +71,10 @@ int	ft_flag_print(t_data *data, char *str)
 			width += write(1, (&(*data->prefix++)), 1);
 	if (data->flags.padc == '0')
 		width += ft_printpads(data);
-	width += ft_puts(data, str);
+	width += ft_puts(str);
 	if (data->flags.ladjust && data->length - ft_strlen(str) >= 0)
 		width += ft_printpads(data);
-	return (width);                 
+	return (width);
 }
 
 int	ft_printstr(t_data *data, char *str)
@@ -90,14 +91,5 @@ int	ft_printstr(t_data *data, char *str)
 	if (data->c)
 		data->length -= 1;
 	width += ft_flag_print(data, str);
-	// if (data->flags.plus_sign)
-	// 	data->length -= 1;
-	// if (data->flags.plus_sign)
-	// 	width += write(1, &(data->flags.plus_sign), 1);
-	// if (!data->flags.ladjust && data->length > 0)
-	// 	width += ft_printpads(data);
-	// width += ft_puts(data, str);
-	// if (data->flags.ladjust && data->length > 0)
-	// 	width += ft_printpads(data);
 	return (width);
 }

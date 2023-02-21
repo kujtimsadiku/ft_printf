@@ -6,7 +6,7 @@
 /*   By: ksadiku <kuite.s@hotmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 16:09:40 by ksadiku           #+#    #+#             */
-/*   Updated: 2023/02/21 14:41:36 by ksadiku          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:28:50 by ksadiku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_data
 	int				pads_used;
 	int				base;
 	char			c;
+	char			t_c;
 	char			*prefix;
 	char			digits[MAXBUF];
 	bool			null_c;
@@ -75,7 +76,7 @@ void	ft_typecast_u(t_data *data, unsigned long long *num);
 
 int		ft_printstr(t_data *data, char *str);
 int		ft_printstr_helper(t_data *data, char *str);
-int		ft_puts(t_data *data, char *str);
+int		ft_puts(char *str);
 
 int		ft_printchr(t_data *data, int c);
 int		ft_printpads(t_data *data);

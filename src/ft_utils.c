@@ -6,7 +6,7 @@
 /*   By: ksadiku <kuite.s@hotmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 15:58:03 by ksadiku           #+#    #+#             */
-/*   Updated: 2023/02/21 15:27:49 by ksadiku          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:32:27 by ksadiku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_modifier(t_data *data, char *str)
 
 int	ft_flags(t_data *data, char *str)
 {
-	int	i;
+	int		i;
 	char	c;
 
 	i = 0;
@@ -61,12 +61,31 @@ int	ft_flags(t_data *data, char *str)
 	return (i);
 }
 
-int	ft_padwidth(t_data *data, char *str)
+static int	ft_width_digit(t_data *data, char *str)
 {
 	int		i;
-	char	c;
+
 	i = 0;
-	
+	if (ft_isdigit(*str))
+	{
+		data->flags.is_digit = true;
+		while (ft_isdigit(*str))
+		{
+			data->flags.num = 10 * data->flags.num + (*str - '0');
+			data->t_c = *str++;
+			i++;
+		}
+	}
+	else
+		return (0);
+	return (i);
+}
+
+int	ft_padwidth(t_data *data, char *str)
+{
+	int	i;
+
+	i = 0;
 	if (*str == '0')
 	{
 		if (data->flags.ladjust)
@@ -81,16 +100,7 @@ int	ft_padwidth(t_data *data, char *str)
 			str++;
 		}
 	}
-	if (ft_isdigit(*str))
-	{
-		data->flags.is_digit = true;
-		while (ft_isdigit(*str))
-		{
-			data->flags.num = 10 * data->flags.num + (*str - '0');
-			c = *str++;
-			i++;
-		}
-	}
+	i += ft_width_digit(data, &(*str));
 	return (i);
 }
 
