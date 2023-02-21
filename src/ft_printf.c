@@ -6,7 +6,7 @@
 /*   By: ksadiku <kuite.s@hotmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 15:55:50 by ksadiku           #+#    #+#             */
-/*   Updated: 2023/02/20 16:26:20 by ksadiku          ###   ########.fr       */
+/*   Updated: 2023/02/21 15:52:33 by ksadiku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,13 @@ void	ft_init_add(t_data *data)
 	data->bits = 0;
 	data->null_c = false;
 	data->ptr_addr = false;
+	data->c = 0;
+	data->length = 0;
+	data->base = 0;
+	data->pads_used = 0;
+	data->prefix = NULL;
 	data->flags.num = 0;
+	data->flags.add_sign = false;
 	data->flags.ladjust = false;
 	data->flags.altfmt = false;
 	data->flags.is_digit = false;
@@ -68,6 +74,7 @@ int	ft_printf(const char *format, ...)
 	i = 0;
 	data.width = 0;
 	va_start(data.args, format);
+	ft_strcpy(data.digits, "0123456789abcdef0123456789ABCDEF");
 	while (format[i])
 	{
 		if (format[i] == '%')

@@ -6,7 +6,7 @@
 /*   By: ksadiku <kuite.s@hotmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 15:58:03 by ksadiku           #+#    #+#             */
-/*   Updated: 2023/02/20 16:25:55 by ksadiku          ###   ########.fr       */
+/*   Updated: 2023/02/21 15:27:49 by ksadiku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,19 @@ int	ft_modifier(t_data *data, char *str)
 int	ft_flags(t_data *data, char *str)
 {
 	int	i;
+	char	c;
 
 	i = 0;
-	data->c = *str;
+	c = *str;
 	while (true)
 	{
-		if (data->c == '#')
+		if (c == '#')
 			data->flags.altfmt = true;
-		else if (data->c == '-')
+		else if (c == '-')
 			data->flags.ladjust = true;
-		else if (data->c == '+')
+		else if (c == '+')
 			data->flags.plus_sign = '+';
-		else if (data->c == ' ')
+		else if (c == ' ')
 		{
 			if (data->flags.plus_sign == 0)
 				data->flags.plus_sign = ' ';
@@ -55,7 +56,7 @@ int	ft_flags(t_data *data, char *str)
 		else
 			break ;
 		i++;
-		data->c = *(++str);
+		c = *(++str);
 	}
 	return (i);
 }
@@ -63,8 +64,9 @@ int	ft_flags(t_data *data, char *str)
 int	ft_padwidth(t_data *data, char *str)
 {
 	int		i;
-
+	char	c;
 	i = 0;
+	
 	if (*str == '0')
 	{
 		if (data->flags.ladjust)
@@ -73,6 +75,11 @@ int	ft_padwidth(t_data *data, char *str)
 			data->flags.padc = '0';
 		i++;
 		str++;
+		while (i + ft_flags(data, &(*str)) > i)
+		{
+			i++;
+			str++;
+		}
 	}
 	if (ft_isdigit(*str))
 	{
@@ -80,26 +87,7 @@ int	ft_padwidth(t_data *data, char *str)
 		while (ft_isdigit(*str))
 		{
 			data->flags.num = 10 * data->flags.num + (*str - '0');
-			data->c = *str++;
-			i++;
-		}
-	}
-	return (i);
-}
-
-int	ft_precision(t_data *data, char *p)
-{
-	char	c;
-	int		i;
-
-	c = *p;
-	i = 0;
-	if (c == '.')
-	{
-		while (ft_isdigit(*p))
-		{
-			data->length = 10 * data->flags.num + (c - '0');
-			c = *++p;
+			c = *str++;
 			i++;
 		}
 	}

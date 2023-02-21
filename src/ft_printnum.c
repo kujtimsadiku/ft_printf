@@ -6,7 +6,7 @@
 /*   By: ksadiku <kuite.s@hotmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 15:55:44 by ksadiku           #+#    #+#             */
-/*   Updated: 2023/02/20 16:04:33 by ksadiku          ###   ########.fr       */
+/*   Updated: 2023/02/21 14:39:52 by ksadiku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,21 @@ int	ft_itsptr(t_data *data, unsigned long long u)
 
 int	ft_print_u(t_data *data, unsigned long long u, int base)
 {
-	static char	digits[MAXBUF];
 	char		*build;
 	int			length;
 
-	ft_strcpy(digits, "0123456789abcdef0123456789ABCDEF");
-	build = &digits[MAXBUF - 1];
+	build = &data->digits[MAXBUF - 1];
 	length = 0;
 	if (u == 0 && data->flags.altfmt)
 		return (ft_itsptr(data, u));
 	ft_typecast_u(data, &u);
 	while (u != 0)
 	{
-		*build-- = digits[u % base + data->capitals];
+		*build-- = data->digits[u % base + data->capitals];
 		u /= base;
 	}
 	build++;
+	data->base = base;
 	length += ft_printstr(data, &(*build));
 	return (length);
 }
@@ -74,17 +73,26 @@ void	ft_typecast(t_data *data, long long *num)
 
 int	ft_print_int(t_data *data, long long num)
 {
-	char	*numstr;
-	int		length;
+	char			*build;
+	unsigned long	u;
 
 	ft_typecast(data, &num);
-	numstr = ft_itoa(num);
+	build = &data->digits[MAXBUF - 1];
 	if (num < 0)
 	{
-		if (data->flags.plus_sign != 0)
-			data->flags.plus_sign = 0;
+		u = -num;
+		data->c = '-';
 	}
-	length = ft_printstr(data, numstr);
-	ft_free(numstr, length);
-	return (length);
+	else
+	{
+		u = num;
+		data->c = data->flags.plus_sign;
+	}
+	while (u != 0)
+	{
+		*build-- = data->digits[u % 10];
+		u /= 10;
+	}
+	build++;
+	return (ft_printstr(data, &(*build)));
 }

@@ -3,21 +3,21 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ksadiku <ksadiku@student.42.fr>            +#+  +:+       +#+         #
+#    By: ksadiku <kuite.s@hotmail.com>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/07 10:49:52 by ksadiku           #+#    #+#              #
-#    Updated: 2023/02/20 15:54:22 by ksadiku          ###   ########.fr        #
+#    Updated: 2023/02/20 16:55:14 by ksadiku          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME			=	ft_printf
+NAME			=	libftprintf.a
 
 H_FOLDER		=	include
 C_FOLDER		=	src
 OBJ_FOLDER		=	obj
 FOLDER_LIST		=	$(H_FOLDER) $(C_FOLDER) $(OBJ_FOLDER)
 
-H_FILES			=	$(NAME).h
+H_FILES			=	ft_printf.h
 C_FILES			=	ft_printf.c ft_printchr.c ft_printnum.c ft_printstr.c ft_utils.c
 H_PATHS			=	$(addprefix $(H_FOLDER)/, $(H_FILES))
 C_PATHS			=	$(addprefix $(C_FOLDER)/, $(C_FILES))
@@ -33,6 +33,8 @@ all: $(NAME)
 $(NAME): pre_requisites $(OBJ_PATHS)
 	@touch pre_requisites
 	@make -C libft
+	@cp libft/libft.a .
+	@mv libft.a $(NAME)
 	@ar rcs $(NAME) $(OBJ_PATHS)
 
 $(OBJ_PATHS): $(OBJ_FOLDER)/%.o:$(C_FOLDER)/%.c $(H_PATHS)
