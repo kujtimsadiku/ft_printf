@@ -6,7 +6,7 @@
 /*   By: ksadiku <kuite.s@hotmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 15:58:03 by ksadiku           #+#    #+#             */
-/*   Updated: 2023/02/21 16:33:25 by ksadiku          ###   ########.fr       */
+/*   Updated: 2023/03/03 16:37:01 by ksadiku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,22 +63,33 @@ int	ft_flags(t_data *data, char *str)
 
 static int	ft_width_digit(t_data *data, char *str)
 {
-	int		i;
+	int n = 0;
 
-	i = 0;
 	if (ft_isdigit(*str))
 	{
 		data->flags.is_digit = true;
-		while (ft_isdigit(*str))
-		{
-			data->flags.num = 10 * data->flags.num + (*str - '0');
-			data->t_c = *str++;
-			i++;
+		while (ft_isdigit(*str)) {
+			data->flags.num = 10 * data->flags.num + (*str++ - '0');
+			n++;
 		}
 	}
-	else
-		return (0);
-	return (i);
+	if (*str == '.')
+	{
+		data->flags.is_digit = true;
+		data->its_prec = true;
+		if (ft_isdigit(*(++str))) 
+		{
+			n++;
+			data->flags.prec = 0;
+			while (ft_isdigit(*str)) {
+				data->flags.prec = 10 * data->flags.prec + (*str++ - '0');
+				n++;
+			}
+		}
+		else
+			n++;
+	}
+	return (n);
 }
 
 int	ft_padwidth(t_data *data, char *str)
@@ -94,8 +105,7 @@ int	ft_padwidth(t_data *data, char *str)
 			data->flags.padc = '0';
 		i++;
 		str++;
-		while (i + ft_flags(data, &(*str)) > i)
-		{
+		while (i + ft_flags(data, &(*str)) > i) {
 			i++;
 			str++;
 		}
@@ -110,8 +120,7 @@ void	ft_hexchecker(t_data *ap, const char *format, int i)
 		ap->capitals = 0;
 	else if (format[i] == 'X')
 		ap->capitals = 16;
-	else if (format[i] == 'p')
-	{
+	else if (format[i] == 'p') {
 		ap->flags.altfmt = true;
 		ap->ptr_addr = true;
 	}
@@ -121,5 +130,4 @@ void	ft_hexchecker(t_data *ap, const char *format, int i)
 		ap->flags.plus_sign = 0;
 	else
 		return ;
-	ap->flags.plus_sign = 0;
 }

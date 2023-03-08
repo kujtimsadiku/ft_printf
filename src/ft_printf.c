@@ -6,7 +6,7 @@
 /*   By: ksadiku <kuite.s@hotmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 15:55:50 by ksadiku           #+#    #+#             */
-/*   Updated: 2023/02/21 16:10:51 by ksadiku          ###   ########.fr       */
+/*   Updated: 2023/03/03 16:48:03 by ksadiku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,19 @@
 
 void	ft_init_add(t_data *data)
 {
-	data->width = 0;
 	data->capitals = 0;
 	data->bits = 0;
 	data->null_c = false;
 	data->ptr_addr = false;
-	data->c = 0;
+	data->its_prec = false;
+	data->sign_c = 0;
 	data->length = 0;
 	data->base = 0;
 	data->pads_used = 0;
 	data->prefix = NULL;
+	data->build = NULL;
 	data->flags.num = 0;
+	data->flags.prec = -1;
 	data->flags.add_sign = false;
 	data->flags.ladjust = false;
 	data->flags.altfmt = false;
@@ -33,7 +35,6 @@ void	ft_init_add(t_data *data)
 	data->flags.padc = ' ';
 }
 
-/* i += ft_precision(ap, (char *)&format[i]); */
 static int	ft_specifier2(t_data *ap, const char *format, int i)
 {
 	i += ft_flags(ap, (char *)&format[i]);
@@ -48,21 +49,21 @@ int	ft_specifier(t_data *ap, const char *format, int i)
 {
 	i = ft_specifier2(ap, format, i);
 	if (format[i] == 'c')
-		ap->width += ft_printchr(ap, va_arg(ap->args, int));
+		ap->width += ft_printchr(ap, va_arg(ap->args, int), ft_putc);
 	else if (format[i] == 's')
 		ap->width += ft_printstr(ap, va_arg(ap->args, char *));
 	else if (format[i] == 'd' || format[i] == 'i')
-		ap->width += ft_print_int(ap, va_arg(ap->args, int));
+		ap->width += ft_print_int(ap, va_arg(ap->args, long));
 	else if (format[i] == 'p')
 		ap->width += ft_print_u(ap, va_arg(ap->args, unsigned long long), 16);
 	else if (format[i] == 'u')
 		ap->width += ft_print_u(ap, va_arg(ap->args, unsigned int), 10);
 	else if (format[i] == 'x' || format[i] == 'X')
-		ap->width += ft_print_u(ap, va_arg(ap->args, unsigned int), 16);
+		ap->width += ft_print_u(ap, va_arg(ap->args, unsigned long), 16);
 	else if (format[i] == 'o')
 		ap->width += ft_print_u(ap, va_arg(ap->args, unsigned int), 8);
 	else if (format[i] == '%')
-		ap->width += write(1, "%%", 1);
+		ap->width += ft_printchr(ap, '%', ft_putc);
 	return (i);
 }
 
@@ -72,12 +73,16 @@ int	ft_printf(const char *format, ...)
 	t_data	data;
 
 	i = 0;
-	data.width = 0;
 	va_start(data.args, format);
-	ft_strcpy(data.digits, "0123456789abcdef0123456789ABCDEF");
+	data.width = 0;
 	while (format[i])
 	{
-		if (format[i] == '%')
+		if (format[i] == '%' && format[i + 1] == '%')
+		{
+			data.width += write(1, "%%", 1);
+			i++;
+		}
+		else if (format[i] == '%')
 		{
 			ft_init_add(&data);
 			i = ft_specifier(&data, format, i + 1);

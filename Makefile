@@ -6,7 +6,7 @@
 #    By: ksadiku <kuite.s@hotmail.com>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/07 10:49:52 by ksadiku           #+#    #+#              #
-#    Updated: 2023/02/20 16:55:14 by ksadiku          ###   ########.fr        #
+#    Updated: 2023/02/24 18:26:54 by ksadiku          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ OBJ_FOLDER		=	obj
 FOLDER_LIST		=	$(H_FOLDER) $(C_FOLDER) $(OBJ_FOLDER)
 
 H_FILES			=	ft_printf.h
-C_FILES			=	ft_printf.c ft_printchr.c ft_printnum.c ft_printstr.c ft_utils.c
+C_FILES			=	ft_printf.c ft_printchr.c ft_numbers.c ft_printstr.c ft_utils.c ft_printnumber.c
 H_PATHS			=	$(addprefix $(H_FOLDER)/, $(H_FILES))
 C_PATHS			=	$(addprefix $(C_FOLDER)/, $(C_FILES))
 OBJ_PATHS		=	$(addprefix $(OBJ_FOLDER)/, $(patsubst %.c, %.o, $(C_FILES)))

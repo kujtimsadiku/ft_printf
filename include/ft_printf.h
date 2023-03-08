@@ -6,7 +6,7 @@
 /*   By: ksadiku <kuite.s@hotmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 16:09:40 by ksadiku           #+#    #+#             */
-/*   Updated: 2023/02/21 16:28:50 by ksadiku          ###   ########.fr       */
+/*   Updated: 2023/03/03 17:19:59 by ksadiku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdint.h>
 # include <stdlib.h>
 # include <limits.h>
+# include <stdio.h>
 
 # define MAXBUF 64
 
@@ -30,6 +31,7 @@ typedef struct s_flags
 	bool	altfmt;
 	bool	add_sign;
 	int		num;
+	int		prec;
 	char	plus_sign;
 	char	padc;
 }				t_flags;
@@ -44,12 +46,12 @@ typedef struct s_data
 	int				capitals;
 	int				pads_used;
 	int				base;
-	char			c;
-	char			t_c;
+	char			sign_c;
 	char			*prefix;
-	char			digits[MAXBUF];
+	char			*build;
 	bool			null_c;
 	bool			ptr_addr;
+	bool			its_prec;
 }					t_data;
 
 typedef struct s_args
@@ -75,10 +77,14 @@ int		ft_print_u(t_data *data, unsigned long long u, int base);
 void	ft_typecast_u(t_data *data, unsigned long long *num);
 
 int		ft_printstr(t_data *data, char *str);
+int		ft_flag_print(t_data *data, char *str, int (*putc)(char));
 int		ft_printstr_helper(t_data *data, char *str);
-int		ft_puts(char *str);
+int		ft_putc(char c);
 
-int		ft_printchr(t_data *data, int c);
-int		ft_printpads(t_data *data);
+int		ft_printchr(t_data *data, int c, int (*putc)(char));
+int		ft_printpads(t_data *data, int c);
+
+int		ft_printnumber(t_data *data, char *num, int (*putc)(char));
+int		ft_printint(t_data *data, char *num, int (*putc)(char));
 
 #endif

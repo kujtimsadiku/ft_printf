@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printnum.c                                      :+:      :+:    :+:   */
+/*   ft_numbers.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ksadiku <kuite.s@hotmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 15:55:44 by ksadiku           #+#    #+#             */
-/*   Updated: 2023/02/21 14:39:52 by ksadiku          ###   ########.fr       */
+/*   Updated: 2023/03/03 18:14:24 by ksadiku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,16 @@ void	ft_typecast_u(t_data *data, unsigned long long *num)
 		*num = (unsigned int)*num;
 }
 
+	/*  0, true, true, not true */
 int	ft_itsptr(t_data *data, unsigned long long u)
 {
+	int	n = 0;
+
+	if (u == 0 && data->flags.prec <= 0 && data->its_prec) {
+		if (data->flags.padc)
+			n = ft_printnumber(data, "", ft_putc);
+		return (n);
+	}
 	if (u == 0 && data->flags.altfmt && data->ptr_addr)
 		return (write(1, "0x0", 3));
 	else
@@ -38,23 +46,31 @@ int	ft_itsptr(t_data *data, unsigned long long u)
 
 int	ft_print_u(t_data *data, unsigned long long u, int base)
 {
-	char		*build;
-	int			length;
+	static char	digits[MAXBUF];
 
-	build = &data->digits[MAXBUF - 1];
-	length = 0;
-	if (u == 0 && data->flags.altfmt)
-		return (ft_itsptr(data, u));
+	ft_strncpy(digits, "0123456789abcdef0123456789ABCDEF", 32);
+	data->build = &digits[MAXBUF - 1];
 	ft_typecast_u(data, &u);
+	if (u == 0 && base != 8)
+		return (ft_itsptr(data, u));
+	else if (u == 0 && base == 8 && data->its_prec && !data->flags.altfmt)
+		return (ft_printnumber(data, "", ft_putc));
+	else if (u == 0 && base == 8)
+		return (write(1, "0", 1));
+	if (base == 8 && data->flags.prec > 0) {
+		if (data->flags.num > data->flags.prec && data->flags.ladjust)
+			data->flags.padc = ' ';
+		else
+			data->flags.padc = '0';
+	}
 	while (u != 0)
 	{
-		*build-- = data->digits[u % base + data->capitals];
+		*data->build-- = digits[u % base + data->capitals];
 		u /= base;
 	}
-	build++;
+	data->build++;
 	data->base = base;
-	length += ft_printstr(data, &(*build));
-	return (length);
+	return (ft_printnumber(data, data->build, ft_putc));
 }
 
 void	ft_typecast(t_data *data, long long *num)
@@ -73,26 +89,31 @@ void	ft_typecast(t_data *data, long long *num)
 
 int	ft_print_int(t_data *data, long long num)
 {
-	char			*build;
-	unsigned long	u;
+	static char		digits[MAXBUF];
+	unsigned long long		u;
 
 	ft_typecast(data, &num);
-	build = &data->digits[MAXBUF - 1];
-	if (num < 0)
-	{
+	ft_strncpy(digits, "0123456789abcdef0123456789ABCDEF", 32);
+	data->build = &digits[MAXBUF - 1];
+	u = num;
+	if (data->flags.num > data->flags.prec && data->flags.ladjust)
+		data->flags.padc = ' ';
+	else if (data->flags.num < data->flags.prec)
+		data->flags.padc = '0';
+	if (num == 0)
+		*data->build-- = digits[u % 10];
+	if (num < 0) {
 		u = -num;
-		data->c = '-';
+		data->sign_c = '-';
 	}
 	else
-	{
-		u = num;
-		data->c = data->flags.plus_sign;
-	}
-	while (u != 0)
-	{
-		*build-- = data->digits[u % 10];
+		data->sign_c = data->flags.plus_sign;
+	while (u != 0) {
+		*data->build-- = digits[u % 10];
 		u /= 10;
 	}
-	build++;
-	return (ft_printstr(data, &(*build)));
+	if ((int)ft_strlen(data->build) < data->flags.prec)
+		*(data->build--) = '0';
+	data->build++;
+	return (ft_printint(data, data->build, ft_putc));
 }
